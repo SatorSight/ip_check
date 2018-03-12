@@ -1,0 +1,57 @@
+{% extends 'base.admin.html.twig' %}
+{% block body %}
+    <div class="admin-load-from-file"><a href="{{ url('admin_ipmasks_load') }}">Загрузить из csv файла</a> </div>
+    <h2>Список IP масок</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Маска</th>
+                <th>Оператор</th>
+                <th>Макро регион</th>
+                <th>Регион</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for iPMask in iPMasks %}
+            <tr>
+                <td><a href="{{ path('admin_ipmasks_show', { 'id': iPMask.id }) }}">{{ iPMask.id }}</a></td>
+                <td>{{ iPMask.mask }}</td>
+                <td>{{ iPMask.operator.name }}</td>
+                <td>{{ iPMask.macroRegion }}</td>
+                <td>{{ iPMask.region }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_ipmasks_show', { 'id': iPMask.id }) }}">Открыть</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_ipmasks_edit', { 'id': iPMask.id }) }}">Редактировать</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+    <a href="{{ path('admin_ipmasks_new') }}">
+        <button type="button" class="btn btn-primary">Добавить</button>
+    </a>
+    <hr>
+    <div style="padding-top: 1px; padding-bottom: 6px;" class="jumbotron"><h2>Удалить все маски по оператору:</h2></div>
+        {% for op in operators %}
+            <div class="row">
+                <div class="col-sm-4" style="font-size: 26px;">{{ op.name }}</div>
+                <div class="col-sm-4">
+                    <a href="{{ path('admin_ipmasks_delete_op',{'id':op.id}) }}">
+                        <button type="button" class="btn btn-primary">Удалить</button>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    <br>
+    <br>
+    <br>
+{% endblock %}

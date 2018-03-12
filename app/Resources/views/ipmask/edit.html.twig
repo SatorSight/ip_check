@@ -1,0 +1,17 @@
+{% extends 'base.admin.html.twig' %}
+{% block body %}
+    <h2>Редактирование IP маски</h2>
+    {{ form_start(edit_form) }}
+    {{ form_widget(edit_form) }}
+    <div class="btn-group">
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a href="{{ path('admin_ipmasks_index') }}">
+            <button type="button" class="btn btn-default">Назад к списку</button>
+        </a>
+    </div>
+    {{ form_end(edit_form) }}
+    <hr>
+    {{ form_start(delete_form) }}
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    {{ form_end(delete_form) }}
+{% endblock %}

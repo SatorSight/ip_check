@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <title>{% block title %}Киоск плюс{% endblock %}</title>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    {#{% javascripts '@AppBundle/Resources/public/js_admin/*' %}#}
+    {#<script src="{{ asset_url }}"></script>#}
+    {#{% endjavascripts %}#}
+
+    {% block add_styles %}{% endblock %}
+
+    <style>
+        #admin-container {
+            width: 1660px;
+        }
+
+        .admin-load-from-file{
+            position: absolute;
+            right: 10px;
+            margin: 20px;
+            font-size: 20px;
+        }
+        .admin-load-from-file{
+            z-index: 100;
+        }
+
+        .admin-wrapper h2:first-child{
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .admin-wrapper .jumbotron h3{
+            margin-top: 10px;
+        }
+
+        .affix {
+            top: 20px;
+        }
+
+        #admin-terminal{
+            padding: 11px;
+            padding-top: 0;
+            color: #bd4600;
+            top: 4px;
+
+            position: relative;
+            display: inline-block;
+        }
+
+        body .magazines .item-rss .magazine-inner .img{
+            width: 25%;
+            margin: 0 10px 10px 0;
+            float: left;
+            max-width: 200px;
+            min-width: 100px;
+            max-height: 200px;
+            overflow: hidden;
+            height: 140px;
+        }
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+        th input{
+            max-width: 82px;
+        }
+
+        .admin-journals-table .mask img{
+            max-width: 100px;
+        }
+
+        tr th input{
+            border-radius: 5px;
+            border-style: ridge;
+            padding: 3px;
+        }
+        #data-table_filter input[type=search]{
+            border-radius: 5px;
+            border-style: ridge;
+        }
+
+        #check-journals{
+            position: absolute;
+            right: 10%;
+            top: 0;
+        }
+
+        #data-table tbody tr.admin-pages-missing{
+            background: #ffc0c0;
+        }
+
+        table tr td .input-10{
+            width: 20%;
+            display: inline-block;
+        }
+    </style>
+
+    {#{% stylesheets '@AppBundle/Resources/public/css_admin/*' %}#}
+    {#<link rel="stylesheet" href="{{ asset_url }}">#}
+    {#{% endstylesheets %}#}
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            if($('#data-table').length != 0) {
+                $('#data-table thead th').each(function () {
+                    var title = $('#data-table tfoot th').eq($(this).index()).text();
+                    $(this).html('<input type="text" placeholder="' + title + '">');
+                });
+                let table = $('#data-table').DataTable({
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+                    }
+                });
+                table.columns().eq(0).each(function (colIdx) {
+                    $('input', table.column(colIdx).header()).on('keyup change', function () {
+                        table
+                            .column(colIdx)
+                            .search(this.value)
+                            .draw();
+                    });
+                });
+            }
+
+            if($('.data-multitable').length != 0) {
+                $('.data-multitable').DataTable({
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+                    },
+                    "order": [[ 1, "asc" ]]
+                });
+            }
+        });
+    </script>
+
+</head>
+<body>
+<div class="container" id="admin-container">
+    <div class="jumbotron" style="padding-top: 18px; padding-bottom: 18px; background:#333;  font-family: monospace;">
+        <div class="media">
+            <div class="media-body">
+                <a href="/"><h2 id="admin-terminal">IP Check</h2></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-10 admin-wrapper">
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+</div>
+<br>
+<br>
+</body>
+</html>

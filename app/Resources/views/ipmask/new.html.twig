@@ -1,0 +1,13 @@
+{% extends 'base.admin.html.twig' %}
+{% block body %}
+    <h2>Добавление IP маски</h2>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="btn-group">
+        <button type="submit" class="btn btn-primary">Добавить</button>
+        <a href="{{ path('admin_ipmasks_index') }}">
+            <button type="button" class="btn btn-default">Назад к списку</button>
+        </a>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

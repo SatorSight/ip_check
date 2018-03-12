@@ -1,0 +1,25 @@
+{% extends 'base.admin.html.twig' %}
+{% block body %}
+    <h2>Загрузка из csv</h2>
+    <div class="admin-note">Примечание: протестированно только на последнем файле от МТС</div>
+    <form action="" enctype="multipart/form-data" method="post">
+        <div class="form-group">
+            <label for="operator">Оператор</label>
+            <select class="form-control" id="operator" name="operator">
+                {% for op in operators %}
+                    <option value="{{ op.id }}">{{ op.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="file">Файл (.csv)</label>
+            <input class="form-control" type="file" name="file" accept=".csv"/>
+        </div>
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Загрузить</button>
+            <a href="{{ path('admin_ipmasks_index') }}">
+                <button type="button" class="btn btn-default">Назад к списку</button>
+            </a>
+        </div>
+    </form>
+{% endblock %}
